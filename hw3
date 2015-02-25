@@ -41,14 +41,7 @@ void init_budget( Budget & );
 void add_to_account( Budget & );
 void spend_from_account( Budget & );
 void account_transaction( Budget &, int, double );
-
-
-//void writeFileContent();   // Probably called something else
-
-
-
   
-
 enum RESPONSE { EXIT_PROGRAM, SHOW_BUDGET, ADD_TO_ACCOUNT, SPEND_FROM_ACCOUNT };
 
 int main()
@@ -73,8 +66,6 @@ int main()
 
   return 0;
 }
-
-
 
 void displayMenu()
 {
