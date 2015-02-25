@@ -189,3 +189,15 @@ void account_transaction( Budget & budget, int accountNumber, double amount )
   //double accountValue = 
   //temp_accounts[accountNumber] = temp_accounts[accountNumber] + amount;
 }
+
+
+/*
+
+/cygdrive/c/Users/Bruce/AppData/Local/Temp/ccfJvltr.o:hw3.cpp:(.text+0x1d6): undefined reference to `add_to_account(Budget&)'
+/cygdrive/c/Users/Bruce/AppData/Local/Temp/ccfJvltr.o:hw3.cpp:(.text+0x1d6): relocation truncated to fit: R_X86_64_PC32 against undefined symbol `add_to_account(Budget&)'
+/cygdrive/c/Users/Bruce/AppData/Local/Temp/ccfJvltr.o:hw3.cpp:(.text+0x1e4): undefined reference to `spend_from_account(Budget&)'
+/cygdrive/c/Users/Bruce/AppData/Local/Temp/ccfJvltr.o:hw3.cpp:(.text+0x1e4): relocation truncated to fit: R_X86_64_PC32 against undefined symbol `spend_from_account(Budget&)'
+collect2: error: ld returned 1 exit status
+[Finished in 1.1s with exit code 1]
+
+/*
