@@ -1,0 +1,200 @@
+/*************************************
+ * Bruce Laughlin
+ * 912145434
+ * brucelaughlin@gmail.com
+ * g++
+ *************************************/
+
+#include <iostream>
+#include <vector>
+#include <string>
+#include <fstream>
+
+using namespace std;
+
+  // Must define these outside of main to use as fields
+struct Envelope{
+  int id;
+  string title;
+};
+
+struct Account{
+  int id;
+  string title;
+  double balance;
+};
+
+struct Budget
+{
+  string user_name;
+  string title;
+  vector<Account> accounts;
+  vector<Envelope> envelopes;
+};
+
+void displayMenu();
+int getUserResponse();
+void processInput( int, Budget & );
+
+void show_budget( Budget & );
+void init_budget( Budget & );
+void add_to_account( Budget & );
+void spend_from_account( Budget & );
+void account_transaction( Budget &, int, double );
+
+
+//void writeFileContent();   // Probably called something else
+
+
+
+  
+
+enum RESPONSE { EXIT_PROGRAM, SHOW_BUDGET, ADD_TO_ACCOUNT, SPEND_FROM_ACCOUNT };
+
+int main()
+{
+  int user_response = -1;
+
+ /* string budget_title;
+  cout << "Enter budget title: " << endl;
+  cin >> budget_title;
+  Budget budget_title;
+  init_budget( budget_title ); */    //how to make this variable?
+
+  Budget bruce;
+  init_budget( bruce );
+
+  while( user_response != EXIT_PROGRAM )
+	{
+	  displayMenu();
+	  user_response = getUserResponse();
+	  processInput( user_response, bruce);  //needs to be general!! ??
+	}
+
+  return 0;
+}
+
+
+
+void displayMenu()
+{
+	  cout << SHOW_BUDGET << ". View Budget" << endl
+	  << ADD_TO_ACCOUNT << ". Add to Account" << endl
+	  << SPEND_FROM_ACCOUNT << ". Spend from Account" << endl
+	  << EXIT_PROGRAM << ". EXIT" << endl;
+}
+
+int getUserResponse()
+{
+  int user_response;
+
+  cout << "Enter your selection: ";
+  cin >> user_response;
+  cout << endl;                        // is this necessary?
+
+  return user_response;
+}
+
+void processInput( int user_response, Budget & budget )
+{
+	switch( user_response )
+	{
+		case EXIT_PROGRAM:
+		  break;
+		case SHOW_BUDGET:
+		  show_budget( budget );
+		case ADD_TO_ACCOUNT:
+		  add_to_account( budget );
+		  break;
+		case SPEND_FROM_ACCOUNT:
+		  spend_from_account( budget );
+		  break;
+		default:
+		  break;
+	}
+}
+
+void init_budget( Budget & budget)
+{
+  string filename = "bruce_budget"; //Must be variable eventually !!!
+  ifstream file;
+  file.open( filename.c_str()); //why this .c_str() again??
+
+  if (file.fail())
+  {
+    cout << endl << "No budget file with title  : " << filename << endl;
+    return;
+  }
+
+  file >> budget.user_name;
+  file >> budget.title;
+
+  int number_of_accounts;
+  file >> number_of_accounts;
+  for ( int i=1; i <= number_of_accounts; i++ )
+  {
+    file >> budget.accounts[i].id;
+    file >> budget.accounts[i].title;
+    file >> budget.accounts[i].balance;
+  }
+
+  int number_of_envelopes;
+  file >> number_of_envelopes;
+  for ( int j=1; j<=number_of_envelopes; j++ )
+  {
+    file >> budget.envelopes[j].id;
+    file >> budget.envelopes[j].title;
+  }
+
+}
+
+void show_budget( Budget & budget )
+{
+  cout << "-------" << budget.user_name << " | " << budget.title << "-------" << endl;
+  vector<Account> temp_accounts = budget.accounts;
+  int number_of_accounts = temp_accounts.size();
+  cout << number_of_accounts << " Accounts:" << endl;
+  for ( int i=1; i<=number_of_accounts; i++ )
+  {
+    cout << i << "  " << temp_accounts[i].title << "  $" << temp_accounts[i].balance << endl;
+  }
+}
+
+void addToAccount( Budget & budget)
+{
+  int accountNumber;
+  double amount;
+  cout << "Select account: ";
+  cin >> accountNumber;
+  cout << endl << "How much would you like to deposit? ";
+  cin >> amount;
+  cout << endl;
+
+  account_transaction( budget, accountNumber, amount );
+  show_budget( budget );
+}
+
+void spendFromAccount( Budget & budget)
+{
+  int accountNumber;
+  double amount;
+  cout << "Select account: ";
+  cin >> accountNumber;
+  cout << endl << "How much would you like to withdraw? ";
+  cin >> amount;
+  cout << endl;
+  amount = amount*(-1);
+
+  account_transaction( budget, accountNumber, amount );
+  show_budget( budget );
+}
+
+void account_transaction( Budget & budget, int accountNumber, double amount )
+{
+  //vector<Account> temp_accounts = budget.accounts[accountNumber];
+  //Account temp_accounts = budget.accounts[accountNumber];
+  budget.accounts[accountNumber].balance = budget.accounts[accountNumber].balance + amount;
+
+  //double accountValue = 
+  //temp_accounts[accountNumber] = temp_accounts[accountNumber] + amount;
+}
